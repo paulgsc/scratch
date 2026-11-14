@@ -14,7 +14,9 @@ That one command (bound to `prefix S` in tmux by paulgsc/dotfiles):
   to `/dev/shm`, then `$TMPDIR`.
 - writes `main.rs` and a `rust-project.json`, so rust-analyzer works with no
   `Cargo.toml`.
-- opens vim on `main.rs`. Inside tmux it also opens a pane beside vim that
+- opens vim on `main.rs`, whatever `$EDITOR` says, since the run-on-save and
+  `<leader>r` bindings live in vim. Set `SCRATCH_EDITOR` to use another
+  editor on purpose. Inside tmux it also opens a pane beside vim that
   compiles, lints and runs the file on every save.
 
 Quit vim or close the window, and the directory is deleted. **Nothing is

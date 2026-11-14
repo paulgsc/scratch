@@ -50,3 +50,22 @@ pinned by `flake.lock`, with clippy, rustfmt, rust-analyzer and rust-src, plus
 `cc` as the linker and `watchexec`. `nix flake update` moves it.
 
 `nix flake check` builds `scratch` and compiles and runs a hello world with it.
+
+## When it isn't what you expect
+
+- **nano (or another editor) opens instead of vim.** Before paulgsc/scratch#2,
+  `scratch` opened `$EDITOR`, and NixOS sets `EDITOR=nano` by default. It now
+  always opens vim, because the run-on-save and `<leader>r` bindings live in
+  vim (paulgsc/dotfiles `pkgs/vim/scratch.vim`); `SCRATCH_EDITOR` picks another
+  editor on purpose. If nano still opens, your machine is running a copy of
+  `scratch` from before that change: see the next point.
+- **A change pushed here hasn't reached you.** `prefix S` runs
+  `nix develop github:paulgsc/scratch#scratchpad`, and Nix reuses its last
+  fetch of an unlocked `github:` flake for `tarball-ttl` (one hour by
+  default) before it looks again. To take the newest `main` now:
+
+  ```
+  nix develop --refresh github:paulgsc/scratch#scratchpad -c true
+  ```
+
+  The toolchain itself moves only when `flake.lock` does, never on a refresh.

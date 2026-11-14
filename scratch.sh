@@ -186,7 +186,11 @@ cmd_new() {
   else
     echo "scratch: not in tmux; in vim, <leader>r (or :make) compiles and runs" >&2
   fi
-  "${EDITOR:-vim}" "$dir/main.rs" || true
+  # vim, not $EDITOR: the run-on-save and <leader>r bindings live in vim
+  # (paulgsc/dotfiles pkgs/vim/scratch.vim), and a system $EDITOR such as
+  # NixOS's default nano opened a scratchpad without them. SCRATCH_EDITOR
+  # overrides it on purpose.
+  "${SCRATCH_EDITOR:-vim}" "$dir/main.rs" || true
 }
 
 case "${1:-new}" in
